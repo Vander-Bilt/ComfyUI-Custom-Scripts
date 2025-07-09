@@ -1,21 +1,15 @@
 import { app } from "../../../scripts/app.js";
 import { ComfyWidgets } from "../../../scripts/widgets.js";
 
-// Displays input text on a node
-
-// TODO: This should need to be so complicated. Refactor at some point.
-
-import { app } from "../../../scripts/app.js";
-import { ComfyWidgets } from "../../../scripts/widgets.js";
-
 app.registerExtension({
 	name: "pysssss.ShowHtml",
 	async beforeRegisterNodeDef(nodeType, nodeData, app) {
 		if (nodeData.name === "ShowHtml|pysssss") {
-
+			console.log("ShowHtml|pysssss");
 			function setHtml(html) {
+				console.log("setHtml", html);
 				if (this.widgets) {
-					const pos = this.widgets.findIndex((w) => w.name === "html");
+					const pos = this.widgets.findIndex((w) => w.name === "html_display");
 					if (pos !== -1) {
 						for (let i = pos; i < this.widgets.length; i++) {
 							this.widgets[i].onRemove?.();
@@ -24,7 +18,7 @@ app.registerExtension({
 					}
 				}
 
-				const w = ComfyWidgets["STRING"](this, "html", ["STRING", { multiline: true }], app).widget;
+				const w = ComfyWidgets["STRING"](this, "html_display", ["STRING", { multiline: true }], app).widget;
 				w.inputEl.readOnly = true;
 				w.inputEl.style.display = "none";
 
@@ -48,15 +42,15 @@ app.registerExtension({
 			nodeType.prototype.onExecuted = function (message) {
 				onExecuted?.apply(this, arguments);
 				if (message?.html) {
-					setHtml.call(this, message.html[0]);
+					setHtml.call(this, message.html.join('\n'));
 				}
 			};
 
 			const onConfigure = nodeType.prototype.onConfigure;
 			nodeType.prototype.onConfigure = function () {
 				onConfigure?.apply(this, arguments);
-				if (this.widgets_values?.length) {
-					setHtml.call(this, this.widgets_values[0]);
+				if (this.widgets_values?.length && this.widgets_values[0]?.length) {
+					setHtml.call(this, this.widgets_values[0].join('\n'));
 				}
 			};
 		}
