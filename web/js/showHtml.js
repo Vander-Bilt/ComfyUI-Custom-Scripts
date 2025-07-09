@@ -7,9 +7,8 @@ app.registerExtension({
 		if (nodeData.name === "ShowHtml|pysssss") {
 			console.log("ShowHtml|pysssss");
 			function setHtml(html) {
-				console.log("setHtml", html);
 				if (this.widgets) {
-					const pos = this.widgets.findIndex((w) => w.name === "html_display");
+					const pos = this.widgets.findIndex((w) => w.name === "html_display" || w.name === "html_display_div");
 					if (pos !== -1) {
 						for (let i = pos; i < this.widgets.length; i++) {
 							this.widgets[i].onRemove?.();
@@ -17,10 +16,6 @@ app.registerExtension({
 						this.widgets.length = pos;
 					}
 				}
-
-				const w = ComfyWidgets["STRING"](this, "html_display", ["STRING", { multiline: true }], app).widget;
-				w.inputEl.readOnly = true;
-				w.inputEl.style.display = "none";
 
 				const div = document.createElement("div");
 				div.style.width = "100%";
@@ -33,13 +28,11 @@ app.registerExtension({
 				div.style.overflowY = "auto";
 				div.innerHTML = html;
 
-				console.log("div", div);
-				console.log(w);
-				console.log(w.inputEl);
-				console.log(w.inputEl.parentNode);
-				console.log(w.inputEl.parentNode.children);
-				
-				w.inputEl.parentNode.insertBefore(div, w.inputEl);
+				this.addDOMWidget("html_display_div", "div", div);
+
+				const w = ComfyWidgets["STRING"](this, "html_display", ["STRING", { multiline: true }], app).widget;
+				w.inputEl.readOnly = true;
+				w.inputEl.style.display = "none";
 				w.value = html;
 
 				this.onResize?.(this.computeSize());
