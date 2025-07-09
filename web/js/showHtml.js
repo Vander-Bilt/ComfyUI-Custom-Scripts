@@ -32,6 +32,13 @@ app.registerExtension({
 				div.style.maxHeight = "300px";
 				div.style.overflowY = "auto";
 				div.innerHTML = html;
+
+				console.log("div", div);
+				console.log(w);
+				console.log(w.inputEl);
+				console.log(w.inputEl.parentNode);
+				console.log(w.inputEl.parentNode.children);
+				
 				w.inputEl.parentNode.insertBefore(div, w.inputEl);
 				w.value = html;
 
