@@ -19,12 +19,13 @@ app.registerExtension({
 
 				const div = document.createElement("div");
 				div.style.width = "100%";
+				div.style.height = "auto";
 				div.style.padding = "5px";
 				div.style.color = "var(--input-text)";
 				div.style.backgroundColor = "var(--comfy-input-bg)";
 				div.style.borderRadius = "4px";
 				div.style.margin = "5px 0";
-				div.style.maxHeight = "300px";
+				// div.style.maxHeight = "300px";
 				div.style.overflowY = "auto";
 				div.innerHTML = html;
 
