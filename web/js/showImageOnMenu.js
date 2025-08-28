@@ -67,7 +67,7 @@ const ext = {
 		app.ui.settings.addSetting({
 			id,
 			name: "🐍 Show Image On Menu",
-			defaultValue: true,
+			defaultValue: false,
 			type: "boolean",
 			onChange(value) {
 				enabled = value;
